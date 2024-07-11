@@ -35,7 +35,7 @@ with open('scalers.pkl', 'rb') as file:
 # Dự đoán giá đóng cửa tiếp theo
 def predict_next_close(stock_data, seq_length, model, features, scaler):
     last_sequence = stock_data[features].values[-seq_length:]# Lấy chuỗi dữ liệu cuối cùng từ dữ liệu cổ phiếu, dựa trên seq_length
-    last_sequence = scaler.transform(last_sequence))# Chuyển đổi dữ liệu cuối cùng về phạm vi chuẩn hóa bằng scaler
+    last_sequence = scaler.transform(last_sequence)# Chuyển đổi dữ liệu cuối cùng về phạm vi chuẩn hóa bằng scaler
     last_sequence = np.expand_dims(last_sequence[:-1], axis=0) # Mở rộng chiều của chuỗi dữ liệu cuối cùng để phù hợp với đầu vào của mô hình LSTM
     predicted_price = model.predict(last_sequence)# Dự đoán giá đóng cửa tiếp theo bằng mô hình LSTM
     predicted_price = np.concatenate([predicted_price, np.zeros((predicted_price.shape[0], len(features)-1))], axis=1)# Tạo mảng trống với cùng số hàng như dự đoán, nhưng với số cột bằng số đặc trưng
